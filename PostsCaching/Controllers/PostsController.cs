@@ -1,6 +1,59 @@
-﻿namespace PostsCaching.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using PostsCaching.Models.Dtos;
+using PostsCaching.Services;
+
+namespace PostsCaching.Controllers
 {
-    public class PostsController
+    [ApiController]
+    public class PostsController : ControllerBase
     {
+        private readonly IPostsService postsService;
+
+        public PostsController(IPostsService postsService) => this.postsService = postsService;
+
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetRecentPosts()
+        {
+            try
+            {
+                return Ok(await postsService.GetRecentPosts());
+            }
+            catch (Exception ex)
+            {
+                var errorResponce = new { Code = 500, ErrorMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponce);
+            }
+        }
+
+        [HttpGet("byId")]
+        public IActionResult GetPostById([FromRoute] int id)
+        {
+            try
+            {
+                return Ok(postsService.GetPostById(id));
+            }
+            catch (Exception ex)
+            {
+                var errorResponce = new { Code = 500, ErrorMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponce);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPost([FromBody] PostDto post)
+        {
+            try 
+            {
+                await postsService.AddPostAsync(post);
+            }
+            catch (Exception ex) 
+            {
+                var errorResponce = new { Code = 500, ErrorMessage = ex.Message };
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponce);
+            }
+
+            return Ok();
+        }
     }
 }
