@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 using PostsCaching.Models.Dtos;
-using PostsCaching.Models.Views;
 
 namespace PostsCaching.Utils.Validation
 {
     public class PostDtoValidator : AbstractValidator<PostDto>
     {
-        public PostDtoValidator() 
+        public PostDtoValidator()
         {
             RuleFor(post => post.Author).NotEmpty();
             RuleFor(post => post.Title).NotEmpty();

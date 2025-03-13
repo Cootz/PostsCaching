@@ -1,5 +1,4 @@
 ﻿using PostsCaching.Models.Db;
-using PostsCaching.Models.Views;
 
 namespace PostsCaching.Repositories
 {

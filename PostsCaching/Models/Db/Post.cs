@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace PostsCaching.Models.Db
+﻿namespace PostsCaching.Models.Db
 {
     public class Post : IPost
     {

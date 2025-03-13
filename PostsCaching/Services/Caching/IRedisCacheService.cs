@@ -13,7 +13,7 @@ namespace PostsCaching.Services.Caching
         /// Invalidates cache by deletining it from Redis
         /// </summary>
         Task InvalidateAsync(string recentPostsCacheKey);
-        
+
         /// <summary>
         /// Add cache to Redis
         /// </summary>

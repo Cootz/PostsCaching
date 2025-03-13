@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using PostsCaching.Models.Dtos;
 using PostsCaching.Services;
 
@@ -44,11 +43,11 @@ namespace PostsCaching.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPost([FromBody] PostDto post)
         {
-            try 
+            try
             {
                 await postsService.AddPostAsync(post);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 var errorResponce = new { Code = 500, ErrorMessage = ex.Message };
                 return StatusCode(StatusCodes.Status500InternalServerError, errorResponce);

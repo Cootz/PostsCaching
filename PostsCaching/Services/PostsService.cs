@@ -1,12 +1,10 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.Caching.Distributed;
 using PostsCaching.Models.Db;
 using PostsCaching.Models.Dtos;
 using PostsCaching.Models.Views;
 using PostsCaching.Repositories;
 using PostsCaching.Services.Caching;
 using PostsCaching.Utils.Extensions;
-using System.Collections.Generic;
 
 namespace PostsCaching.Services
 {

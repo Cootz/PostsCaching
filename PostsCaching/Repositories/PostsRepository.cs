@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PostsCaching.Database;
 using PostsCaching.Models.Db;
-using PostsCaching.Models.Views;
 
 namespace PostsCaching.Repositories
 {
