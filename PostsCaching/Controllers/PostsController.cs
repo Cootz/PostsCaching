@@ -27,11 +27,11 @@ namespace PostsCaching.Controllers
         }
 
         [HttpGet("byId")]
-        public IActionResult GetPostById([FromRoute] int id)
+        public async Task<IActionResult> GetPostById([FromRoute] int id)
         {
             try
             {
-                return Ok(postsService.GetPostById(id));
+                return Ok(await postsService.GetPostByIdAsync(id));
             }
             catch (Exception ex)
             {

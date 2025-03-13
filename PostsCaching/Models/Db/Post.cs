@@ -1,4 +1,7 @@
-﻿namespace PostsCaching.Models.Db
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PostsCaching.Models.Db
 {
     public class Post : IPost
     {
@@ -12,7 +15,10 @@
 
         public required string Content { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]       
         public DateTime CreationDate { get; init; }
-        public DateTime? LastUpdated { get; set; } = null;
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime LastUpdated { get; set; }
     }
 }

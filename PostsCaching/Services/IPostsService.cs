@@ -7,7 +7,7 @@ namespace PostsCaching.Services
     {
         Task AddPostAsync(PostDto post);
         Task DeletePostAsync(int id);
-        PostView GetPostById(int id);
+        Task<PostView> GetPostByIdAsync(int id);
         Task<IEnumerable<ShortPostView>> GetRecentPosts();
     }
 }

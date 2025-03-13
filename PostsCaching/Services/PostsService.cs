@@ -23,6 +23,7 @@ namespace PostsCaching.Services
             await _validator.ValidateAndThrowAsync(post);
 
             await _repository.AddPostAsync(post.ToDb());
+            await _repository.SaveDbAsync();
         }
 
         public Task DeletePostAsync(int id)
@@ -30,8 +31,18 @@ namespace PostsCaching.Services
             throw new NotImplementedException();
         }
 
-        public PostView GetPostById(int id) => _repository.GetPostById(id).ToView();
+        public async Task<PostView> GetPostByIdAsync(int id)
+        {
+            Post? post = await _repository.GetPostByIdAsync(id) ?? throw new Exception($"Post with id {id} is not found");
 
-        public Task<IEnumerable<ShortPostView>> GetRecentPosts() => _repository.GetRecentPostsAsync();
+            return post.ToView();
+        }
+
+        public async Task<IEnumerable<ShortPostView>> GetRecentPosts()
+        {
+            IEnumerable<Post> posts = await _repository.GetRecentPostsAsync();
+
+            return posts.Select(post => post.ToShortView());
+        }
     }
 }
