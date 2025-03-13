@@ -15,10 +15,8 @@ namespace PostsCaching.Models.Db
 
         public required string Content { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]       
         public DateTime CreationDate { get; init; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
     }
 }

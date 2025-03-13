@@ -4,6 +4,7 @@ using PostsCaching.Database;
 using PostsCaching.Models.Dtos;
 using PostsCaching.Repositories;
 using PostsCaching.Services;
+using PostsCaching.Services.Caching;
 using PostsCaching.Utils.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddDbContext<PostsDbContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("pgsConnectionString"))
+        options.UseNpgsql(builder.Configuration.GetConnectionString("postgress"))
+    )
+    .AddStackExchangeRedisCache(options =>
+        options.Configuration = builder.Configuration.GetConnectionString("redis")
     )
     .AddScoped<IPostsService, PostsService>()
     .AddScoped<IPostsRepository, PostsRepository>()
+    .AddScoped<IRedisCacheService, RedisCacheService>()
     .AddScoped<IValidator<PostDto>, PostDtoValidator>()
     .AddControllers();
 
@@ -24,10 +29,7 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
 
 app.UseAuthorization();
 
@@ -36,7 +38,7 @@ using (IServiceScope serviceScope = app.Services.GetRequiredService<IServiceScop
 {
     PostsDbContext context = serviceScope.ServiceProvider.GetRequiredService<PostsDbContext>();
 
-    context.Database.Migrate();
+    await context.Database.MigrateAsync();
 }
 
 app.MapControllers();

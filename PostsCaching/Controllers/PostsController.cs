@@ -6,6 +6,7 @@ using PostsCaching.Services;
 namespace PostsCaching.Controllers
 {
     [ApiController]
+    [Route("[controller]")]
     public class PostsController : ControllerBase
     {
         private readonly IPostsService postsService;
@@ -27,7 +28,7 @@ namespace PostsCaching.Controllers
         }
 
         [HttpGet("byId")]
-        public async Task<IActionResult> GetPostById([FromRoute] int id)
+        public async Task<IActionResult> GetPostById([FromQuery] int id)
         {
             try
             {

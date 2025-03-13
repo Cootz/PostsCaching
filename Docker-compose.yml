@@ -1,0 +1,40 @@
+﻿services:
+  backend:
+    build: 
+      context: .
+      dockerfile: ./PostsCaching/Dockerfile
+    environment:
+      ConnectionStrings__postgress: "Host=postgres;Database=ordersApi;Username=postgres;Password=P@ssword"
+      ConnectionStrings__redis: "redis:6379"
+    ports:
+      - "12315:8080"
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+  postgres:
+    image: postgres:17.4-alpine3.21
+    environment:
+      POSTGRES_PASSWORD: "P@ssword"
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    networks:
+      - backend
+    restart: unless-stopped
+  redis:
+    image: redis:latest
+    volumes:
+       - redis:/data
+    networks:
+      - backend
+    restart: unless-stopped
+
+networks:
+  backend:
+
+volumes:
+  postgres:
+  redis:  

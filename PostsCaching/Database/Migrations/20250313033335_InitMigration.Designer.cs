@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using PostsCaching.Database;
 
 #nullable disable
 
 namespace PostsCaching.Database.Migrations
 {
     [DbContext(typeof(PostsDbContext))]
-    [Migration("20250313001840_InitMigration")]
+    [Migration("20250313033335_InitMigration")]
     partial class InitMigration
     {
         /// <inheritdoc />
@@ -42,14 +43,15 @@ namespace PostsCaching.Database.Migrations
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastUpdated")
-                        .ValueGeneratedOnAddOrUpdate()
+                    b.Property<DateTime?>("LastUpdated")
+                        .ValueGeneratedOnUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
